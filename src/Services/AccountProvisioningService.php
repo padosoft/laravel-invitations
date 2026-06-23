@@ -58,11 +58,16 @@ final class AccountProvisioningService
                 "provisioned:{$tenantId}:{$user->getKey()}",
                 [
                     'account_id' => $user->getKey(),
-                    'tenant_count' => count($tenantGrants),
-                    'project_count' => array_sum(array_map(
-                        static fn (TenantGrant $g): int => count($g->projects),
-                        $tenantGrants,
-                    )),
+                    // tenant_count / project_count are detail, not top-level
+                    // columns — record() only persists the fixed keys + context,
+                    // so carry them in `context` or they're dropped on the floor.
+                    'context' => [
+                        'tenant_count' => count($tenantGrants),
+                        'project_count' => array_sum(array_map(
+                            static fn (TenantGrant $g): int => count($g->projects),
+                            $tenantGrants,
+                        )),
+                    ],
                 ],
             );
         } catch (\Throwable $e) {

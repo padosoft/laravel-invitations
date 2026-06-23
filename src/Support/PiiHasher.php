@@ -59,6 +59,14 @@ final class PiiHasher
 
     private function salt(): string
     {
-        return (string) (config('invitations.pii.hash_salt') ?? config('app.key'));
+        // Treat an empty INVITE_PII_SALT as unset — an empty HMAC key silently
+        // disables the salt and weakens pseudonymization. Fall back to app.key.
+        $salt = config('invitations.pii.hash_salt');
+
+        if (! is_string($salt) || $salt === '') {
+            $salt = config('app.key');
+        }
+
+        return (string) $salt;
     }
 }

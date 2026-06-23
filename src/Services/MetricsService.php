@@ -83,8 +83,8 @@ final class MetricsService
             'k_factor' => $distinctReferrers > 0 ? round($qualified / $distinctReferrers, 4) : 0.0,
             'acceptance_rate' => $invitesSent > 0 ? round($invitesAccepted / $invitesSent, 4) : 0.0,
             'conversion_rate' => $codesIssued > 0 ? round($redemptions / $codesIssued, 4) : 0.0,
-            'ttr_p50_seconds' => $this->ttrPercentile($tenantId, $campaignId, 0.50),
-            'ttr_p90_seconds' => $this->ttrPercentile($tenantId, $campaignId, 0.90),
+            'ttr_p50_seconds' => $this->ttrPercentile($tenantId, $campaignId, 0.50, $since),
+            'ttr_p90_seconds' => $this->ttrPercentile($tenantId, $campaignId, 0.90, $since),
         ];
     }
 
@@ -105,14 +105,19 @@ final class MetricsService
      * single row is fetched at the percentile offset (R3: never loads the whole
      * redemption set into memory). Driver-aware epoch diff.
      */
-    private function ttrPercentile(string $tenantId, ?int $campaignId, float $percentile): ?int
+    private function ttrPercentile(string $tenantId, ?int $campaignId, float $percentile, ?Carbon $since = null): ?int
     {
         $diff = $this->secondsDiffExpression();
 
         $base = Redemption::query()
             ->forTenant($tenantId)
+            // Constrain the JOINED table to the same tenant too — defence-in-depth
+            // against cross-tenant leakage if a row is ever corrupted (R30).
             ->join('invite_codes', 'invite_codes.id', '=', 'invite_redemptions.code_id')
+            ->where('invite_codes.tenant_id', $tenantId)
             ->when($campaignId !== null, fn ($q) => $q->where('invite_codes.campaign_id', $campaignId))
+            // Scope TTR to the same lookback window as the other summary metrics.
+            ->when($since !== null, fn ($q) => $q->where('invite_redemptions.redeemed_at', '>=', $since))
             ->whereNotNull('invite_codes.created_at');
 
         $count = (clone $base)->count();

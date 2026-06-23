@@ -229,9 +229,14 @@ final class RedemptionService
             return null;
         }
 
-        $salt = (string) (config('invitations.pii.hash_salt') ?? config('app.key'));
+        // Empty INVITE_PII_SALT is treated as unset (an empty HMAC key weakens
+        // pseudonymization) — fall back to app.key.
+        $salt = config('invitations.pii.hash_salt');
+        if (! is_string($salt) || $salt === '') {
+            $salt = config('app.key');
+        }
 
-        return hash_hmac('sha256', $value, $salt);
+        return hash_hmac('sha256', $value, (string) $salt);
     }
 
     private function networkField(?string $value): ?string

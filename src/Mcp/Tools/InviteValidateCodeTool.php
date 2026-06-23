@@ -37,7 +37,9 @@ class InviteValidateCodeTool extends Tool
     {
         $code = (string) $request->get('code');
         if ($code === '') {
-            return Response::json(['error' => 'invalid']);
+            // Same shape as every other failure ({valid:false,error}) so MCP
+            // clients never special-case empty input.
+            return Response::json(['valid' => false, 'error' => 'invalid']);
         }
 
         $result = app(CodeValidator::class)->validate($code, app(TenantResolver::class)->current());

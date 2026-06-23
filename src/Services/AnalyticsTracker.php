@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Padosoft\Invitations\Services;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Padosoft\Invitations\Contracts\TenantResolver;
 use Padosoft\Invitations\Support\PiiHasher;
 use Throwable;
@@ -30,24 +31,35 @@ final class AnalyticsTracker
      */
     public function record(string $eventType, string $eventId, array $attrs = []): void
     {
-        try {
-            $accountId = $attrs['account_id'] ?? null;
+        $accountId = $attrs['account_id'] ?? null;
 
-            // insertOrIgnore makes the UNIQUE(tenant_id, event_id) collision a
-            // silent no-op — idempotent ingestion, no second row.
-            DB::table('invite_analytics_events')->insertOrIgnore([
-                'tenant_id' => $this->tenant->current(),
-                'event_id' => $eventId,
+        try {
+            // Nested transaction → a SAVEPOINT when the caller is already inside
+            // a transaction, so a failed insert rolls back cleanly instead of
+            // poisoning the outer transaction (pgsql aborts it with 25P02 even
+            // when the exception is caught). insertOrIgnore keeps the
+            // UNIQUE(tenant_id, event_id) collision a silent idempotent no-op.
+            DB::transaction(function () use ($eventType, $eventId, $attrs, $accountId): void {
+                DB::table('invite_analytics_events')->insertOrIgnore([
+                    'tenant_id' => $this->tenant->current(),
+                    'event_id' => $eventId,
+                    'event_type' => $eventType,
+                    'actor_hash' => $accountId !== null ? $this->hasher->hash('account:'.$accountId) : null,
+                    'campaign_id' => $attrs['campaign_id'] ?? null,
+                    'code_id' => $attrs['code_id'] ?? null,
+                    'referral_id' => $attrs['referral_id'] ?? null,
+                    'context' => isset($attrs['context']) ? json_encode($attrs['context']) : null,
+                    'occurred_at' => now(),
+                ]);
+            });
+        } catch (Throwable $e) {
+            // Best-effort; never propagate into the user path — but report so a
+            // persistent analytics failure is diagnosable.
+            Log::warning('invitations.analytics.record_failed', [
                 'event_type' => $eventType,
-                'actor_hash' => $accountId !== null ? $this->hasher->hash('account:'.$accountId) : null,
-                'campaign_id' => $attrs['campaign_id'] ?? null,
-                'code_id' => $attrs['code_id'] ?? null,
-                'referral_id' => $attrs['referral_id'] ?? null,
-                'context' => isset($attrs['context']) ? json_encode($attrs['context']) : null,
-                'occurred_at' => now(),
+                'exception' => $e::class,
+                'message' => $e->getMessage(),
             ]);
-        } catch (Throwable) {
-            // Analytics is best-effort; never propagate into the user path.
         }
     }
 }
