@@ -1,7 +1,9 @@
-# NOTE: ported engine runs at level 5 (real type-safety: undefined methods/
-# properties, bad arguments, dead code). Phase 3z quality pass raises this to
-# `max` after adding full @property + relation/scope generics to the models
-# (the rebel-ecosystem standard). Tracked in docs/ROADMAP.md.
+# Runs at level 5 (real type-safety: undefined methods/properties, bad
+# arguments, dead code) — clean. Level `max` is a deferred hardening pass: it
+# currently surfaces ~220 findings dominated by larastan's migration-inference
+# emitting imprecise nonObject/cast types on Eloquent attribute + relation
+# access (mostly false positives), needing per-model @property + relation
+# generics to resolve. Tracked in docs/ROADMAP.md (Phase 3z).
 includes:
     - vendor/larastan/larastan/extension.neon
 

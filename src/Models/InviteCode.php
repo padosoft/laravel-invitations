@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Padosoft\Invitations\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -26,7 +25,6 @@ use Padosoft\Invitations\Tenancy\BelongsToTenant;
 class InviteCode extends Model
 {
     use BelongsToTenant;
-    use HasFactory;
 
     public const KIND_RANDOM = 'random';
 

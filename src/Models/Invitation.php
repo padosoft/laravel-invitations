@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Padosoft\Invitations\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Padosoft\Invitations\Invitations;
@@ -19,7 +18,6 @@ use Padosoft\Invitations\Tenancy\BelongsToTenant;
 class Invitation extends Model
 {
     use BelongsToTenant;
-    use HasFactory;
 
     public const CHANNEL_EMAIL = 'email';
 

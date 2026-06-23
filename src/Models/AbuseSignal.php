@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Padosoft\Invitations\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Padosoft\Invitations\Tenancy\BelongsToTenant;
 
@@ -18,7 +17,6 @@ use Padosoft\Invitations\Tenancy\BelongsToTenant;
 class AbuseSignal extends Model
 {
     use BelongsToTenant;
-    use HasFactory;
 
     public const SUBJECT_IP = 'ip';
 
