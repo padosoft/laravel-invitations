@@ -7,6 +7,7 @@ use Padosoft\Invitations\Http\Controllers\InviteCampaignController;
 use Padosoft\Invitations\Http\Controllers\InviteCodeController;
 use Padosoft\Invitations\Http\Controllers\InviteInvitationController;
 use Padosoft\Invitations\Http\Controllers\InviteMetricsController;
+use Padosoft\Invitations\Http\Controllers\InviteReadController;
 use Padosoft\Invitations\Http\Controllers\RedemptionController;
 
 /*
@@ -45,4 +46,10 @@ Route::middleware((array) config('invitations.routes.admin_middleware', ['web', 
 
         Route::get('metrics', [InviteMetricsController::class, 'index'])->name('invitations.admin.metrics');
         Route::post('invitations', [InviteInvitationController::class, 'store'])->name('invitations.admin.invitations.store');
+
+        // Read surfaces for the referral / reward / waitlist / anti-abuse domains.
+        Route::get('referrals', [InviteReadController::class, 'referrals'])->name('invitations.admin.referrals');
+        Route::get('rewards', [InviteReadController::class, 'rewards'])->name('invitations.admin.rewards');
+        Route::get('waitlist', [InviteReadController::class, 'waitlist'])->name('invitations.admin.waitlist');
+        Route::get('abuse-signals', [InviteReadController::class, 'abuseSignals'])->name('invitations.admin.abuse-signals');
     });
