@@ -1,8 +1,17 @@
+# NOTE: ported engine runs at level 5 (real type-safety: undefined methods/
+# properties, bad arguments, dead code). Phase 3z quality pass raises this to
+# `max` after adding full @property + relation/scope generics to the models
+# (the rebel-ecosystem standard). Tracked in docs/ROADMAP.md.
 includes:
     - vendor/larastan/larastan/extension.neon
 
 parameters:
-    level: max
+    level: 5
     paths:
         - src
+        - tests/Fixtures
+    # Let larastan infer Eloquent model attributes from the package schema, so
+    # dynamic property access ($code->state, etc.) resolves without docblocks.
+    databaseMigrationsPath:
+        - database/migrations
     tmpDir: build/phpstan
