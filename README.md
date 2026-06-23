@@ -19,6 +19,10 @@ Multi‑tenant · concurrency‑safe · idempotent redemption · GDPR‑ready ·
 > ⚠️ **Active development toward `v1.0.0`.** The engine is production‑proven (extracted from a
 > shipping app) and fully tested; the public API may still shift before the `v1.0.0` tag.
 
+📖 **Full documentation:** **[doc.laravel-invitations.padosoft.com](https://doc.laravel-invitations.padosoft.com)**
+— deep, academic guides on atomic redemption, multi‑tenancy, anti‑abuse, K‑factor analytics, the
+tri‑surface API, GDPR, and the architecture decision records.
+
 ---
 
 ## 🚀 AI vibe‑coding pack included
