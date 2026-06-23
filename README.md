@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="resources/banner.png" alt="Laravel Invitations" width="100%" />
+
 # Laravel Invitations
 
 **The enterprise invite‑by‑code, referral, rewards, waitlist & anti‑abuse suite for Laravel.**
@@ -221,11 +223,17 @@ All knobs live in `config/invitations.php` and are env‑overridable — code al
 PII retention, anti‑abuse thresholds/velocity/blocklists, and the route prefix + per‑surface middleware
 (attach your RBAC gate to `invitations.routes.admin_middleware`).
 
-## Companion package
+## Web admin panel
 
 [`padosoft/laravel-invitations-admin`](https://github.com/padosoft/laravel-invitations-admin) ships a
-React + Tailwind admin SPA over this package's API — campaigns, codes, invitations, referral graph,
-reward ledger, waitlist, anti‑abuse review and the virality dashboard.
+polished **React + Tailwind** admin SPA over this package's API — a virality dashboard plus campaigns,
+codes, invitations (who accepted vs. who didn't), referral graph, reward ledger, waitlist and
+anti‑abuse review. Default‑OFF, host‑gated, prebuilt assets (no JS toolchain to install). For apps that
+already run their own React SPA, the screens can be adapted natively instead of cross‑mounting.
+
+<p align="center">
+  <img src="resources/laravel-invitations-admin-dashboard-dark.png" alt="Invitations & Growth admin — virality dashboard" width="100%" />
+</p>
 
 ## Testing
 
