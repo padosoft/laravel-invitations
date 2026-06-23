@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "model": "Xenova/all-MiniLM-L6-v2",
+  "dimensions": 384,
+  "status": "complete",
+  "totalFiles": 27,
+  "indexedFiles": 27,
+  "totalChunks": 239,
+  "batchCount": 1,
+  "files": {
+    "architecture\\data-model.md": {
+      "mtime": 1782231977573.2744,
+      "size": 5788,
+      "batches": []
+    },
+    "architecture\\decisions.md": {
+      "mtime": 1782232026551.386,
+      "size": 5467,
+      "batches": []
+    },
+    "architecture\\overview.md": {
+      "mtime": 1782232518978.6528,
+      "size": 3842,
+      "batches": []
+    },
+    "architecture\\pipeline.md": {
+      "mtime": 1782231946847.0735,
+      "size": 4757,
+      "batches": []
+    },
+    "concepts\\analytics.md": {
+      "mtime": 1782231896399.2913,
+      "size": 5625,
+      "batches": []
+    },
+    "concepts\\anti-abuse.md": {
+      "mtime": 1782231853254.2942,
+      "size": 6438,
+      "batches": []
+    },
+    "concepts\\atomic-redemption.md": {
+      "mtime": 1782231770469.391,
+      "size": 9877,
+      "batches": []
+    },
+    "concepts\\multi-tenancy.md": {
+      "mtime": 1782231804657.0464,
+      "size": 6121,
+      "batches": []
+    },
+    "guides\\email-invitations.md": {
+      "mtime": 1782232148010.594,
+      "size": 3791,
+      "batches": []
+    },
+    "guides\\events.md": {
+      "mtime": 1782232193770.8823,
+      "size": 3228,
+      "batches": []
+    },
+    "guides\\gdpr.md": {
+      "mtime": 1782232245662.0674,
+      "size": 4721,
+      "batches": []
+    },
+    "guides\\grants.md": {
+      "mtime": 1782232174917.5535,
+      "size": 5001,
+      "batches": []
+    },
+    "guides\\invite-codes.md": {
+      "mtime": 1782232054042.7305,
+      "size": 4661,
+      "batches": []
+    },
+    "guides\\mcp.md": {
+      "mtime": 1782232217824.499,
+      "size": 4176,
+      "batches": []
+    },
+    "guides\\referrals-rewards.md": {
+      "mtime": 1782232083539.96,
+      "size": 4848,
+      "batches": []
+    },
+    "guides\\waitlist.md": {
+      "mtime": 1782232104242.9275,
+      "size": 3530,
+      "batches": []
+    },
+    "index.md": {
+      "mtime": 1782232491980.621,
+      "size": 5917,
+      "batches": []
+    },
+    "installation.md": {
+      "mtime": 1782231716746.478,
+      "size": 2910,
+      "batches": []
+    },
+    "operations\\configuration.md": {
+      "mtime": 1782232281785.6082,
+      "size": 4746,
+      "batches": []
+    },
+    "operations\\http-api.md": {
+      "mtime": 1782232311032.8738,
+      "size": 3772,
+      "batches": []
+    },
+    "quickstart.md": {
+      "mtime": 1782232499895.783,
+      "size": 3499,
+      "batches": []
+    },
+    "reference\\admin-panel.md": {
+      "mtime": 1782232532205.42,
+      "size": 2707,
+      "batches": []
+    },
+    "reference\\artisan.md": {
+      "mtime": 1782232347054.785,
+      "size": 1942,
+      "batches": []
+    },
+    "reference\\best-practices.md": {
+      "mtime": 1782232411608.638,
+      "size": 3493,
+      "batches": []
+    },
+    "reference\\events.md": {
+      "mtime": 1782232358596.7637,
+      "size": 1644,
+      "batches": []
+    },
+    "reference\\mcp-tools.md": {
+      "mtime": 1782232373712.6084,
+      "size": 2545,
+      "batches": []
+    },
+    "reference\\php-api.md": {
+      "mtime": 1782232332551.2288,
+      "size": 3776,
+      "batches": []
+    }
+  }
+}

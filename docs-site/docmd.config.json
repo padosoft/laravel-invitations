@@ -1,0 +1,86 @@
+{
+  "title": "Laravel Invitations",
+  "description": "Enterprise invite-by-code, referral, rewards, waitlist & anti-abuse suite for Laravel — multi-tenant, concurrency-safe, idempotent redemption, GDPR-ready, tri-surface (PHP + HTTP API + MCP).",
+  "url": "https://doc.laravel-invitations.padosoft.com",
+  "author": "Padosoft",
+  "organization": "Padosoft",
+  "license": "MIT",
+  "banner": "https://raw.githubusercontent.com/padosoft/laravel-invitations/main/resources/banner.png",
+  "src": "docs",
+  "out": "_site",
+  "base": "/",
+  "favicon": "assets/favicon.svg",
+  "theme": { "name": "default", "defaultMode": "dark", "customCss": ["assets/custom.css"] },
+  "autoTitleFromH1": true,
+  "copyCode": true,
+  "pageNavigation": true,
+  "minify": true,
+  "markdown": { "breaks": true },
+  "layout": {
+    "spa": true,
+    "header": { "enabled": true },
+    "sidebar": { "collapsible": true, "defaultCollapsed": false },
+    "optionsMenu": { "position": "header", "components": { "search": true, "themeSwitch": true } }
+  },
+  "footer": {
+    "style": "minimal",
+    "branding": true,
+    "content": "© Padosoft — [padosoft.com](https://padosoft.com) · [GitHub](https://github.com/padosoft/laravel-invitations) · MIT",
+    "columns": [
+      { "title": "Project", "links": [ { "title": "GitHub", "path": "https://github.com/padosoft/laravel-invitations", "external": true } ] }
+    ]
+  },
+  "navigation": [
+    { "title": "Get Started", "icon": "rocket", "children": [
+      { "title": "Introduction", "path": "/" },
+      { "title": "Quickstart", "path": "/quickstart" },
+      { "title": "Installation", "path": "/installation" }
+    ]},
+    { "title": "Guides", "icon": "wrench", "children": [
+      { "title": "Invite codes", "path": "/guides/invite-codes" },
+      { "title": "Referrals & rewards", "path": "/guides/referrals-rewards" },
+      { "title": "Waitlist & queue-jump", "path": "/guides/waitlist" },
+      { "title": "Email invitations", "path": "/guides/email-invitations" },
+      { "title": "Per-invite entitlement grants", "path": "/guides/grants" },
+      { "title": "Domain events", "path": "/guides/events" },
+      { "title": "The MCP surface", "path": "/guides/mcp" }
+    ]},
+    { "title": "Concepts & Theory", "icon": "book-open", "children": [
+      { "title": "Atomic idempotent redemption", "path": "/concepts/atomic-redemption" },
+      { "title": "Multi-tenancy & host seams", "path": "/concepts/multi-tenancy" },
+      { "title": "Anti-abuse scoring", "path": "/concepts/anti-abuse" },
+      { "title": "Virality analytics (K-factor)", "path": "/concepts/analytics" }
+    ]},
+    { "title": "Architecture", "icon": "network", "children": [
+      { "title": "Overview", "path": "/architecture/overview" },
+      { "title": "Redemption pipeline", "path": "/architecture/pipeline" },
+      { "title": "Data model", "path": "/architecture/data-model" },
+      { "title": "Decision records (ADR)", "path": "/architecture/decisions" }
+    ]},
+    { "title": "Best Practices", "icon": "badge-check", "children": [
+      { "title": "Best practices", "path": "/reference/best-practices" },
+      { "title": "GDPR & data privacy", "path": "/guides/gdpr" }
+    ]},
+    { "title": "Operations", "icon": "settings", "children": [
+      { "title": "Configuration reference", "path": "/operations/configuration" },
+      { "title": "The HTTP API", "path": "/operations/http-api" }
+    ]},
+    { "title": "Reference", "icon": "list", "children": [
+      { "title": "PHP API", "path": "/reference/php-api" },
+      { "title": "Artisan commands", "path": "/reference/artisan" },
+      { "title": "Domain events", "path": "/reference/events" },
+      { "title": "MCP tools", "path": "/reference/mcp-tools" },
+      { "title": "Web admin panel", "path": "/reference/admin-panel" }
+    ]}
+  ],
+  "plugins": {
+    "search": { "enabled": true, "semantic": true, "placeholder": "Search the docs…" },
+    "git": { "repo": "https://github.com/padosoft/laravel-invitations", "branch": "main", "editLink": true, "lastUpdated": true, "commitHistory": true, "dateFormat": "relative" },
+    "seo": { "defaultDescription": "Enterprise invite-by-code, referral, rewards, waitlist & anti-abuse suite for Laravel.", "aiBots": true, "openGraph": {}, "twitter": { "cardType": "summary_large_image" } },
+    "sitemap": { "defaultChangefreq": "weekly", "defaultPriority": 0.8 },
+    "mermaid": {},
+    "math": {},
+    "llms": { "fullContext": true },
+    "analytics": { "enabled": false }
+  }
+}

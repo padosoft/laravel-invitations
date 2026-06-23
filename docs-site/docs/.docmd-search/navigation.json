@@ -1,0 +1,112 @@
+{
+  "tree": [
+    {
+      "title": "Architecture\\Data Model",
+      "path": "architecture\\data-model.md"
+    },
+    {
+      "title": "Architecture\\Decisions",
+      "path": "architecture\\decisions.md"
+    },
+    {
+      "title": "Architecture\\Overview",
+      "path": "architecture\\overview.md"
+    },
+    {
+      "title": "Architecture\\Pipeline",
+      "path": "architecture\\pipeline.md"
+    },
+    {
+      "title": "Concepts\\Analytics",
+      "path": "concepts\\analytics.md"
+    },
+    {
+      "title": "Concepts\\Anti Abuse",
+      "path": "concepts\\anti-abuse.md"
+    },
+    {
+      "title": "Concepts\\Atomic Redemption",
+      "path": "concepts\\atomic-redemption.md"
+    },
+    {
+      "title": "Concepts\\Multi Tenancy",
+      "path": "concepts\\multi-tenancy.md"
+    },
+    {
+      "title": "Guides\\Email Invitations",
+      "path": "guides\\email-invitations.md"
+    },
+    {
+      "title": "Guides\\Events",
+      "path": "guides\\events.md"
+    },
+    {
+      "title": "Guides\\Gdpr",
+      "path": "guides\\gdpr.md"
+    },
+    {
+      "title": "Guides\\Grants",
+      "path": "guides\\grants.md"
+    },
+    {
+      "title": "Guides\\Invite Codes",
+      "path": "guides\\invite-codes.md"
+    },
+    {
+      "title": "Guides\\Mcp",
+      "path": "guides\\mcp.md"
+    },
+    {
+      "title": "Guides\\Referrals Rewards",
+      "path": "guides\\referrals-rewards.md"
+    },
+    {
+      "title": "Guides\\Waitlist",
+      "path": "guides\\waitlist.md"
+    },
+    {
+      "title": "Index",
+      "path": "index.md"
+    },
+    {
+      "title": "Installation",
+      "path": "installation.md"
+    },
+    {
+      "title": "Operations\\Configuration",
+      "path": "operations\\configuration.md"
+    },
+    {
+      "title": "Operations\\Http Api",
+      "path": "operations\\http-api.md"
+    },
+    {
+      "title": "Quickstart",
+      "path": "quickstart.md"
+    },
+    {
+      "title": "Reference\\Admin Panel",
+      "path": "reference\\admin-panel.md"
+    },
+    {
+      "title": "Reference\\Artisan",
+      "path": "reference\\artisan.md"
+    },
+    {
+      "title": "Reference\\Best Practices",
+      "path": "reference\\best-practices.md"
+    },
+    {
+      "title": "Reference\\Events",
+      "path": "reference\\events.md"
+    },
+    {
+      "title": "Reference\\Mcp Tools",
+      "path": "reference\\mcp-tools.md"
+    },
+    {
+      "title": "Reference\\Php Api",
+      "path": "reference\\php-api.md"
+    }
+  ]
+}
