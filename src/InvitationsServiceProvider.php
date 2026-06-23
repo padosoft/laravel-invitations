@@ -49,5 +49,13 @@ final class InvitationsServiceProvider extends PackageServiceProvider
         $this->publishes([
             __DIR__.'/../database/migrations' => database_path('migrations'),
         ], 'invitations-migrations');
+
+        if ((bool) config('invitations.routes.enabled', true)) {
+            $this->loadRoutesFrom(__DIR__.'/../routes/invitations.php');
+        }
+
+        $this->publishes([
+            __DIR__.'/../routes/invitations.php' => base_path('routes/invitations.php'),
+        ], 'invitations-routes');
     }
 }

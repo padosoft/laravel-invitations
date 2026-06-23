@@ -20,6 +20,18 @@ return [
     // TenantResolver to scope rows per customer.
     'default_tenant' => env('INVITATIONS_DEFAULT_TENANT', 'default'),
 
+    // ── HTTP routes ──────────────────────────────────────────────────────
+    // The package ships a route file; a host attaches its own auth + RBAC by
+    // appending middleware (e.g. a `can:` / role gate) to admin_middleware.
+    'routes' => [
+        'enabled' => (bool) env('INVITATIONS_ROUTES_ENABLED', true),
+        'prefix' => env('INVITATIONS_ROUTES_PREFIX', 'api'),
+        // Any authenticated account may redeem.
+        'user_middleware' => ['web', 'auth'],
+        // Admin management — add your RBAC gate here in the host config.
+        'admin_middleware' => ['web', 'auth'],
+    ],
+
     // ── Signup gate ──────────────────────────────────────────────────────
     // When true, registration requires a valid invite code; when false, signup
     // proceeds without one. Default false — opt into closed-beta posture.

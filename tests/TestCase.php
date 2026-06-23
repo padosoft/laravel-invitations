@@ -28,6 +28,9 @@ abstract class TestCase extends Orchestra
     protected function defineEnvironment($app): void
     {
         $app['config']->set('invitations.user_model', InviteUser::class);
+        // Route auth without the web/CSRF stack in tests; actingAs() suffices.
+        $app['config']->set('invitations.routes.user_middleware', ['auth']);
+        $app['config']->set('invitations.routes.admin_middleware', ['auth']);
         $app['config']->set('database.default', 'testing');
         $app['config']->set('database.connections.testing', [
             'driver' => 'sqlite',
