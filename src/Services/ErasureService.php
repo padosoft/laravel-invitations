@@ -9,6 +9,8 @@ use Padosoft\Invitations\Contracts\TenantResolver;
 use Padosoft\Invitations\Models\AbuseSignal;
 use Padosoft\Invitations\Models\Invitation;
 use Padosoft\Invitations\Models\Redemption;
+use Padosoft\Invitations\Models\Referral;
+use Padosoft\Invitations\Models\Reward;
 use Padosoft\Invitations\Support\PiiHasher;
 
 /**
@@ -101,6 +103,34 @@ final class ErasureService
      *
      * @return array<string, int>
      */
+    /**
+     * GDPR right-of-access: every invite-system record held about an account
+     * (its redemptions, the referrals it made + received, its rewards, and —
+     * when an email is supplied — the invitations addressed to it). Tenant-
+     * scoped; bounded to one subject's own activity.
+     *
+     * @return array{account_id: int, redemptions: list<array<string, mixed>>, referrals_made: list<array<string, mixed>>, referrals_received: list<array<string, mixed>>, rewards: list<array<string, mixed>>, invitations: list<array<string, mixed>>}
+     */
+    public function exportAccount(int $accountId, ?string $email = null): array
+    {
+        $tenantId = $this->tenant->current();
+        $normalized = $email !== null ? strtolower(trim($email)) : null;
+
+        return [
+            'account_id' => $accountId,
+            'redemptions' => Redemption::query()->forTenant($tenantId)
+                ->where('redeemer_id', $accountId)->get()->toArray(),
+            'referrals_made' => Referral::query()->forTenant($tenantId)
+                ->where('referrer_id', $accountId)->get()->toArray(),
+            'referrals_received' => Referral::query()->forTenant($tenantId)
+                ->where('referee_id', $accountId)->get()->toArray(),
+            'rewards' => Reward::query()->forTenant($tenantId)
+                ->where('beneficiary_id', $accountId)->get()->toArray(),
+            'invitations' => $normalized === null ? [] : Invitation::query()->forTenant($tenantId)
+                ->where('recipient', $normalized)->get()->toArray(),
+        ];
+    }
+
     public function eraseAccount(int $accountId, ?string $email = null): array
     {
         $tenantId = $this->tenant->current();
