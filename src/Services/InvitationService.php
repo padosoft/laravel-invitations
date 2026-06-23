@@ -9,6 +9,8 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Padosoft\Invitations\Contracts\InvitedAccount;
 use Padosoft\Invitations\Contracts\TenantResolver;
+use Padosoft\Invitations\Events\InvitationAccepted;
+use Padosoft\Invitations\Events\InvitationSent;
 use Padosoft\Invitations\Mail\InvitationMail;
 use Padosoft\Invitations\Models\AbuseSignal;
 use Padosoft\Invitations\Models\Invitation;
@@ -77,6 +79,8 @@ final class InvitationService
         $this->analytics->record(InviteAnalyticsEvent::TYPE_INVITE_SENT, "invite_sent:{$invitation->id}",
             ['account_id' => $inviter->getKey(), 'code_id' => $invitation->code_id]);
 
+        InvitationSent::dispatch($invitation);
+
         return $invitation;
     }
 
@@ -110,7 +114,10 @@ final class InvitationService
         $this->analytics->record(InviteAnalyticsEvent::TYPE_INVITE_OPENED, "invite_opened:{$invitation->id}",
             ['account_id' => $accepter?->getKey(), 'code_id' => $invitation->code_id]);
 
-        return $invitation->refresh();
+        $accepted = $invitation->refresh();
+        InvitationAccepted::dispatch($accepted);
+
+        return $accepted;
     }
 
     /**

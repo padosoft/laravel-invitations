@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Padosoft\Invitations\Services;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Padosoft\Invitations\Contracts\TenantResolver;
 use Padosoft\Invitations\Models\Invitation;
 use Padosoft\Invitations\Models\InviteCode;
@@ -99,27 +100,54 @@ final class MetricsService
             ->all();
     }
 
+    /**
+     * Time-to-redeem percentile, in seconds — computed and ordered IN SQL so a
+     * single row is fetched at the percentile offset (R3: never loads the whole
+     * redemption set into memory). Driver-aware epoch diff.
+     */
     private function ttrPercentile(string $tenantId, ?int $campaignId, float $percentile): ?int
     {
-        $rows = Redemption::query()
+        $diff = $this->secondsDiffExpression();
+
+        $base = Redemption::query()
             ->forTenant($tenantId)
             ->join('invite_codes', 'invite_codes.id', '=', 'invite_redemptions.code_id')
             ->when($campaignId !== null, fn ($q) => $q->where('invite_codes.campaign_id', $campaignId))
-            ->whereNotNull('invite_codes.created_at')
-            ->selectRaw('invite_redemptions.redeemed_at as r, invite_codes.created_at as c')
-            ->get();
+            ->whereNotNull('invite_codes.created_at');
 
-        $deltas = $rows
-            ->map(fn ($row): int => max(0, Carbon::parse($row->getAttribute('r'))->getTimestamp() - Carbon::parse($row->getAttribute('c'))->getTimestamp()))
-            ->sort()
-            ->values();
-
-        if ($deltas->isEmpty()) {
+        $count = (clone $base)->count();
+        if ($count === 0) {
             return null;
         }
 
-        $index = (int) floor($percentile * ($deltas->count() - 1));
+        $offset = (int) floor($percentile * ($count - 1));
 
-        return (int) $deltas[$index];
+        $row = (clone $base)
+            ->selectRaw("$diff as d")
+            ->orderByRaw($diff)
+            ->offset($offset)
+            ->limit(1)
+            ->first();
+
+        if ($row === null) {
+            return null;
+        }
+
+        return max(0, (int) round((float) $row->getAttribute('d')));
+    }
+
+    /**
+     * Portable "seconds between invite_codes.created_at and
+     * invite_redemptions.redeemed_at" SQL expression.
+     */
+    private function secondsDiffExpression(): string
+    {
+        $sqlite = '(julianday(invite_redemptions.redeemed_at) - julianday(invite_codes.created_at)) * 86400';
+
+        return match (DB::connection()->getDriverName()) {
+            'pgsql' => 'EXTRACT(EPOCH FROM (invite_redemptions.redeemed_at - invite_codes.created_at))',
+            'mysql', 'mariadb' => 'TIMESTAMPDIFF(SECOND, invite_codes.created_at, invite_redemptions.redeemed_at)',
+            default => $sqlite,
+        };
     }
 }

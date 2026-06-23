@@ -9,6 +9,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Padosoft\Invitations\Contracts\InvitedAccount;
 use Padosoft\Invitations\Contracts\TenantResolver;
+use Padosoft\Invitations\Events\CodeRedeemed;
 use Padosoft\Invitations\Models\InviteAnalyticsEvent;
 use Padosoft\Invitations\Models\InviteCode;
 use Padosoft\Invitations\Models\Redemption;
@@ -154,6 +155,10 @@ final class RedemptionService
         // attributor returns null for un-attributable / first-wins / self
         // cases; attribution failure must never fail the redemption itself.
         $referral = $this->referrals->attribute($redemption, $code);
+
+        // Fire once, on the fresh claim only — idempotent replays must NOT
+        // re-trigger listener side effects (perks, welcome mail, etc.).
+        CodeRedeemed::dispatch($redemption, false);
 
         return RedemptionResult::success($redemption, already: false, referral: $referral);
     }
