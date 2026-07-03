@@ -84,7 +84,7 @@ final class InviteCampaignController extends Controller
             'description' => ['nullable', 'string', 'max:2000'],
             'status' => ['sometimes', 'in:draft,active,paused,ended'],
             'max_redemptions_total' => ['nullable', 'integer', 'min:1'],
-            'per_user_limit' => ['sometimes', 'integer', 'min:1'],
+            'per_user_limit' => ['sometimes', 'nullable', 'integer', 'min:1'],
             'starts_at' => ['nullable', 'date'],
             'ends_at' => ['nullable', 'date', 'after_or_equal:starts_at'],
             'reward_policy' => ['nullable', 'array'],
