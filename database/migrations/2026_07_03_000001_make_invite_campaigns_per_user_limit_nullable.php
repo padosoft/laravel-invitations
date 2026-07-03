@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 /**
@@ -34,8 +35,12 @@ return new class extends Migration
     public function down(): void
     {
         if (Schema::hasTable('invite_campaigns') && Schema::hasColumn('invite_campaigns', 'per_user_limit')) {
-            // Restore NOT NULL: coalesce any nulls to the default first so the
-            // tightening cannot fail on existing rows.
+            // Coalesce any nulls to the default before tightening to NOT NULL so
+            // the ALTER cannot fail on existing rows.
+            DB::table('invite_campaigns')
+                ->whereNull('per_user_limit')
+                ->update(['per_user_limit' => 1]);
+
             Schema::table('invite_campaigns', function (Blueprint $table): void {
                 $table->unsignedInteger('per_user_limit')->default(1)->nullable(false)->change();
             });
